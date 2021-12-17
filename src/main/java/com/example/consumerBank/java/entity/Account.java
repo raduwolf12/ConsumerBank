@@ -1,9 +1,16 @@
 package com.example.consumerBank.java.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Account {
@@ -15,8 +22,15 @@ public class Account {
 	private Long accountNumber;
 	private double balance;
 
-	private Integer customerId;
 	private String accountType;
+	
+	@OneToMany(mappedBy="account")
+	private Set<Transaction> transaction;
+	
+	@ManyToOne
+	@JoinColumn(name = "customer_id", referencedColumnName = "customerId")
+	@JsonIgnore
+	private Customer customer;
 
 	public Integer getAccountId() {
 		return accountId;
@@ -42,14 +56,6 @@ public class Account {
 		this.balance = balance;
 	}
 
-	public Integer getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
-	}
-
 	public String getAccountType() {
 		return accountType;
 	}
@@ -58,4 +64,11 @@ public class Account {
 		this.accountType = accountType;
 	}
 
+	public Set<Transaction> getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(Set<Transaction> transaction) {
+		this.transaction = transaction;
+	}
 }

@@ -1,7 +1,5 @@
 package com.example.consumerBank.java.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +13,7 @@ import com.example.consumerBank.java.dto.AccountResponseDTO;
 import com.example.consumerBank.java.entity.Account;
 import com.example.consumerBank.java.entity.Customer;
 import com.example.consumerBank.java.exception.CustomerNotFoundException;
+import com.example.consumerBank.java.exceptions.AccountNotExistException;
 import com.example.consumerBank.java.repository.AccountRepository;
 import com.example.consumerBank.java.repository.CustomerRepository;
 import com.example.consumerBank.java.service.AccountService;
@@ -48,16 +47,11 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public List<AccountResponseDTO> getAccounts() {
-		List<AccountResponseDTO> accountResponseDTOs = new ArrayList<>();
-		Iterator<?> it = customerRepository.findAll().iterator();
-
-		while (it.hasNext()) {
-			AccountResponseDTO responseDTO = new AccountResponseDTO();
-			BeanUtils.copyProperties(it.next(), responseDTO);
-			accountResponseDTOs.add(responseDTO);
-		}
-
-		return accountResponseDTOs;
+		List<AccountResponseDTO> accounts = accountRepository.findAccounts();
+	    if(accounts.isEmpty()) {
+	        throw new AccountNotExistException("No accounts found");
+	    }
+	    return accounts;
 	}
 
 	@Override

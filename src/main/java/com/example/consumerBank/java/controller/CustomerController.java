@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.consumerBank.java.dto.CustomerRequestDTO;
 import com.example.consumerBank.java.dto.CustomerResponse;
 import com.example.consumerBank.java.dto.CustomerResponseDTO;
+import com.example.consumerBank.java.dto.TransferDTO;
 import com.example.consumerBank.java.service.CustomerService;
 
 @RestController
@@ -66,4 +67,13 @@ public class CustomerController {
 		customerService.delete(customerId);
 		return new ResponseEntity<>("Customer was deleted", HttpStatus.ACCEPTED);
 	}
+	
+	@PostMapping("/customers/{customerId}")
+	public ResponseEntity<String> transferFunds(@PathVariable Integer customerId,@RequestBody TransferDTO transferDTO) {
+		
+		customerService.transferFunds(customerId, transferDTO);
+		
+		return new ResponseEntity<>("Customer was deleted", HttpStatus.ACCEPTED);
+	}
+	
 }

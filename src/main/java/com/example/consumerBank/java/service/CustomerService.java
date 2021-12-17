@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.consumerBank.java.dto.CustomerRequestDTO;
 import com.example.consumerBank.java.dto.CustomerResponse;
 import com.example.consumerBank.java.dto.CustomerResponseDTO;
+import com.example.consumerBank.java.dto.TransferDTO;
 
 public interface CustomerService {
 	CustomerResponseDTO saveCustomerData(CustomerRequestDTO customerRequestDTO);
@@ -18,5 +19,7 @@ public interface CustomerService {
 	CustomerResponse getCustomerData(String phoneNo, String Adress);	
 	
 	void delete(Integer customerId);
+
+	void transferFunds(Integer customerId, TransferDTO transferDTO);
 
 }

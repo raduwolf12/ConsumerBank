@@ -9,12 +9,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.consumerBank.java.dto.CustomerResponseDTO;
 import com.example.consumerBank.java.dto.TransactionRequestDTO;
 import com.example.consumerBank.java.dto.TransactionResponseDTO;
-import com.example.consumerBank.java.entity.Customer;
 import com.example.consumerBank.java.entity.Transaction;
-import com.example.consumerBank.java.exception.CustomerNotFoundException;
 import com.example.consumerBank.java.repository.TransactionRepository;
 import com.example.consumerBank.java.service.TransactionService;
 

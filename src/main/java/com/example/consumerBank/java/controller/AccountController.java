@@ -33,18 +33,19 @@ public class AccountController {
 	@PostMapping("/accounts")
 	public ResponseEntity<AccountResponseDTO> saveAccountData(@Valid @RequestBody AccountRequestDTO accountRequestDTO)
 			throws CustomerNotFoundException {
-		
-		logger.trace("A TRACE Message");
-		logger.debug("A DEBUG Message");
-		logger.info("An INFO Message");
-		logger.warn("A WARN Message");
-		logger.error("An ERROR Message");
+
+//		logger.trace("A TRACE Message");
+//		logger.debug("A DEBUG Message");
+//		logger.info("An INFO Message");
+//		logger.warn("A WARN Message");
 
 		AccountResponseDTO accountResponseD;
 		try {
 			accountResponseD = accountService.saveAccountData(accountRequestDTO);
 		} catch (Exception e) {
 			// TODO: handle exception
+			logger.error("Customer doesn't exist for the Id: " + accountRequestDTO.getCustomerId());
+
 			throw new CustomerNotFoundException(
 					"Customer doesn't exist for the Id: " + accountRequestDTO.getCustomerId());
 		}
@@ -75,5 +76,7 @@ public class AccountController {
 		accountService.delete(accountId);
 		return new ResponseEntity<>("Customer was deleted", HttpStatus.ACCEPTED);
 	}
+	
+
 
 }

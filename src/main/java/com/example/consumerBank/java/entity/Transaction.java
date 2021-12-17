@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Transaction {
@@ -16,8 +20,13 @@ public class Transaction {
 	private String transactionNumber;
 	private double amount;
 	private String transactionType;
-	private Integer accountId;
+//	private Integer accountId;
 	private Date transactionDate;
+	
+	@ManyToOne
+	@JoinColumn(name="accountId", nullable=false)
+	@JsonIgnore
+	private Account account;
 
 	public Integer getTransactionId() {
 		return transactionId;
@@ -51,14 +60,6 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 
-	public Integer getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Integer accountId) {
-		this.accountId = accountId;
-	}
-
 	public Date getTransactionDate() {
 		return transactionDate;
 	}
@@ -67,4 +68,12 @@ public class Transaction {
 		this.transactionDate = transactionDate;
 	}
 
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	
 }

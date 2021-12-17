@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.consumerBank.java.dto.CustomerRequestDTO;
 import com.example.consumerBank.java.dto.CustomerResponse;
 import com.example.consumerBank.java.dto.CustomerResponseDTO;
+import com.example.consumerBank.java.dto.TransferDTO;
 import com.example.consumerBank.java.entity.Customer;
 import com.example.consumerBank.java.repository.CustomerRepository;
 import com.example.consumerBank.java.service.CustomerService;
@@ -75,5 +76,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public CustomerResponse getCustomerData(String phoneNo, String Adress) {
 		return customerRepository.findCustomerData(phoneNo, Adress);
+	}
+
+	@Override
+	public void transferFunds(Integer customerId, TransferDTO transferDTO) {
+		Customer customer = customerRepository.getById(customerId);
+		
 	}
 }

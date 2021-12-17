@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.example.consumerBank.java.exceptions.AccountNotExistException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -52,6 +54,15 @@ public class GlobalExceptionHandler {
 		errorResponse.setMessage("Invalid data");
 
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(AccountNotExistException.class)
+	public ResponseEntity<ErrorResponse> handleException(AccountNotExistException ex) {
+	    ErrorResponse errorResponse = new ErrorResponse();
+	    errorResponse.setMessage(ex.getMessage());
+	    errorResponse.setDateTimel(LocalDateTime.now());
+	    errorResponse.setStatuscode(HttpStatus.NOT_FOUND.value());
+	    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 
 }
