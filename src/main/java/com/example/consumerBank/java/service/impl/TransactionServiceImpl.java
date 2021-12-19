@@ -11,7 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.consumerBank.java.dto.TransactionRequestDTO;
 import com.example.consumerBank.java.dto.TransactionResponseDTO;
+import com.example.consumerBank.java.entity.Account;
+import com.example.consumerBank.java.entity.Customer;
 import com.example.consumerBank.java.entity.Transaction;
+import com.example.consumerBank.java.exception.CustomerNotFoundException;
+import com.example.consumerBank.java.exceptions.AccountNotExistException;
+import com.example.consumerBank.java.repository.AccountRepository;
 import com.example.consumerBank.java.repository.TransactionRepository;
 import com.example.consumerBank.java.service.TransactionService;
 
@@ -21,11 +26,23 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	TransactionRepository transactionRepository;
 
+	@Autowired
+	AccountRepository accountRepository;
+
 	@Override
 	public TransactionResponseDTO saveTransactionData(TransactionRequestDTO transactionRequestDTO) {
 
+		Optional<Account> optional = accountRepository.findById(transactionRequestDTO.getAccountId());
+
+		if (optional.isEmpty())
+			throw new AccountNotExistException(
+					"Customer doesn't exist for the Id: " + transactionRequestDTO.getAccountId());
+
 		Transaction transaction = new Transaction();
 		BeanUtils.copyProperties(transactionRequestDTO, transaction);
+
+		transaction.setAccount(optional.get());
+
 		transactionRepository.save(transaction);
 
 		TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO();
@@ -39,11 +56,14 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<TransactionResponseDTO> getTransactions() {
 
 		List<TransactionResponseDTO> transactionResponseDTOs = new ArrayList<>();
-		Iterator<?> it = transactionRepository.findAll().iterator();
+//		Iterator<?> it = transactionRepository.findAll().iterator();
+		Iterable<Transaction> transactions = transactionRepository.findAll();
 
-		while (it.hasNext()) {
+		for (Transaction transaction:transactions) {
 			TransactionResponseDTO responseDTO = new TransactionResponseDTO();
-			BeanUtils.copyProperties(it.next(), responseDTO);
+//			Transaction transaction = (Transaction) it.next();
+			BeanUtils.copyProperties(transaction, responseDTO);
+			responseDTO.setAccountId(transaction.getAccount().getAccountId());
 			transactionResponseDTOs.add(responseDTO);
 		}
 
@@ -67,6 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transaction = optional.get();
 		}
 		BeanUtils.copyProperties(transaction, responseDTO);
+		responseDTO.setAccountId(transaction.getAccount().getAccountId());
 
 		return responseDTO;
 	}

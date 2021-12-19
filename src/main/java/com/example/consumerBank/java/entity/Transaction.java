@@ -1,6 +1,8 @@
 package com.example.consumerBank.java.entity;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +26,6 @@ public class Transaction {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name="accountId", nullable=false)
-
 	private Account account;
 
 	public Integer getTransactionId() {

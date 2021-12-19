@@ -6,6 +6,7 @@ import com.example.consumerBank.java.dto.CustomerRequestDTO;
 import com.example.consumerBank.java.dto.CustomerResponse;
 import com.example.consumerBank.java.dto.CustomerResponseDTO;
 import com.example.consumerBank.java.dto.TransferDTO;
+import com.example.consumerBank.java.exception.CustomerNotFoundException;
 
 public interface CustomerService {
 	CustomerResponseDTO saveCustomerData(CustomerRequestDTO customerRequestDTO);
@@ -20,6 +21,6 @@ public interface CustomerService {
 	
 	void delete(Integer customerId);
 
-	void transferFunds(Integer customerId, TransferDTO transferDTO);
+	void transferFunds(Integer customerId, TransferDTO transferDTO) throws CustomerNotFoundException;
 
 }

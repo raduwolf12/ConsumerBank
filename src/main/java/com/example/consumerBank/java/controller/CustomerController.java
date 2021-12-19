@@ -19,6 +19,7 @@ import com.example.consumerBank.java.dto.CustomerRequestDTO;
 import com.example.consumerBank.java.dto.CustomerResponse;
 import com.example.consumerBank.java.dto.CustomerResponseDTO;
 import com.example.consumerBank.java.dto.TransferDTO;
+import com.example.consumerBank.java.exception.CustomerNotFoundException;
 import com.example.consumerBank.java.service.CustomerService;
 
 @RestController
@@ -69,7 +70,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customers/{customerId}")
-	public ResponseEntity<String> transferFunds(@PathVariable Integer customerId,@RequestBody TransferDTO transferDTO) {
+	public ResponseEntity<String> transferFunds(@PathVariable Integer customerId,@RequestBody TransferDTO transferDTO) throws CustomerNotFoundException {
 		
 		customerService.transferFunds(customerId, transferDTO);
 		
