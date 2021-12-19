@@ -32,7 +32,7 @@ public class Customer {
 //	@ElementCollection
 //	List<Address> addressList = new ArrayList<Address>();
 //
-	@OneToMany(mappedBy = "customer",cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "customer")
 	private List<Account> accounts;
 
 	public Integer getCustomerId() {

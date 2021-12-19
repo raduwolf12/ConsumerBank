@@ -2,6 +2,7 @@ package com.example.consumerBank.java.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,15 +19,15 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer accountId;
-	
+
 	private Long accountNumber;
 	private double balance;
 
 	private String accountType;
-	
-	@OneToMany(mappedBy="account")
+
+	@OneToMany(mappedBy = "account")
 	private Set<Transaction> transaction;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "customer_id", referencedColumnName = "customerId")
 	@JsonIgnore
@@ -71,4 +72,18 @@ public class Account {
 	public void setTransaction(Set<Transaction> transaction) {
 		this.transaction = transaction;
 	}
+
+	public void addToBalance(double amount) {
+		this.balance = balance + amount;
+	}
+
+	public void substractFromBalance(double amount) {
+		this.balance = balance - amount;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}	
+	
+
 }

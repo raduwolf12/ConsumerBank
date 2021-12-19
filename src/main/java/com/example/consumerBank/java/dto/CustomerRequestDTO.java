@@ -1,5 +1,7 @@
 package com.example.consumerBank.java.dto;
 
+import java.util.List;
+
 public class CustomerRequestDTO {
 
 	private String customerName;
@@ -7,6 +9,8 @@ public class CustomerRequestDTO {
 	private String phoneNo;
 
 	private String address;
+	
+	private List<AccountRequestDTO> accountRequestDTOs;
 
 	public String getCustomerName() {
 		return customerName;
@@ -30,6 +34,14 @@ public class CustomerRequestDTO {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public List<AccountRequestDTO> getAccountRequestDTOs() {
+		return accountRequestDTOs;
+	}
+
+	public void setAccountRequestDTOs(List<AccountRequestDTO> accountRequestDTOs) {
+		this.accountRequestDTOs = accountRequestDTOs;
 	}
 
 }

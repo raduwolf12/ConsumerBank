@@ -11,4 +11,8 @@ public interface CustomerResponse {
 
 	@Value("#{target.address}")
 	String getAddress();
+	
+	@Value("#{target.accounts}")
+	String getAccounts();
+	
 }

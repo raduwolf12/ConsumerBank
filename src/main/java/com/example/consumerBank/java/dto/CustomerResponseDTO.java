@@ -1,5 +1,7 @@
 package com.example.consumerBank.java.dto;
 
+import java.util.List;
+
 public class CustomerResponseDTO {
 	private Integer customerId;
 
@@ -8,6 +10,7 @@ public class CustomerResponseDTO {
 	private String phoneNo;
 
 	private String address;
+		
 
 	public Integer getCustomerId() {
 		return customerId;

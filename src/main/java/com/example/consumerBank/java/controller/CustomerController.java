@@ -73,7 +73,7 @@ public class CustomerController {
 		
 		customerService.transferFunds(customerId, transferDTO);
 		
-		return new ResponseEntity<>("Customer was deleted", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>("Funds were transfered!", HttpStatus.ACCEPTED);
 	}
 	
 }

@@ -34,11 +34,6 @@ public class AccountController {
 	public ResponseEntity<AccountResponseDTO> saveAccountData(@Valid @RequestBody AccountRequestDTO accountRequestDTO)
 			throws CustomerNotFoundException {
 
-//		logger.trace("A TRACE Message");
-//		logger.debug("A DEBUG Message");
-//		logger.info("An INFO Message");
-//		logger.warn("A WARN Message");
-
 		AccountResponseDTO accountResponseD;
 		try {
 			accountResponseD = accountService.saveAccountData(accountRequestDTO);

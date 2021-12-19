@@ -36,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
 
 		Account account = new Account();
 		BeanUtils.copyProperties(accountRequestDTO, account);
+		account.setCustomer(optional.get());
 
 		accountRepository.save(account);
 
