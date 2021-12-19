@@ -2,7 +2,6 @@ package com.example.consumerBank.java.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +21,7 @@ public class Account {
 
 	private Long accountNumber;
 	private double balance;
-
+//	debit or credit
 	private String accountType;
 
 	@OneToMany(mappedBy = "account")
@@ -83,7 +82,6 @@ public class Account {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}	
-	
+	}
 
 }

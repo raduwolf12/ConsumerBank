@@ -90,14 +90,15 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public CustomerResponseDTO getCustomerDetails(Integer customerId) {
+	public CustomerResponseDTO getCustomerDetails(Integer customerId) throws CustomerNotFoundException {
 		Customer customer = new Customer();
 		CustomerResponseDTO responseDTO = new CustomerResponseDTO();
 
 		Optional<Customer> optional = customerRepository.findById(customerId);
-		if (optional.isPresent()) {
-			customer = optional.get();
+		if (optional.isEmpty()) {
+			throw new CustomerNotFoundException("Customer doesn't exist for the Id: " + customerId);
 		}
+		customer = optional.get();
 		BeanUtils.copyProperties(customer, responseDTO);
 		return responseDTO;
 	}
@@ -128,66 +129,40 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		customer = optional.get();
 
-		Transaction transaction = new Transaction();
-		transaction.setAmount(transferDTO.getAmount());
-		transaction.setTransactionDate(new Date(System.currentTimeMillis()));
-		transaction.setTransactionNumber(Integer.toString(ThreadLocalRandom.current().nextInt()));
-		transaction.setTransactionType("Money Transfer");
-		
-		TransactionRequestDTO transactionDto = new TransactionRequestDTO();
-		transactionDto.setAmount(transferDTO.getAmount());
-		transactionDto.setTransactionDate(new Date(System.currentTimeMillis()));
-		transactionDto.setTransactionNumber(Integer.toString(ThreadLocalRandom.current().nextInt()));
-		transactionDto.setTransactionType("Money Transfer");
-
 		customer.getAccounts().stream()
 				.filter(account -> transferDTO.getAccountIdSource().equals(account.getAccountId())).findAny()
 				.ifPresent(sourceAccount -> {
 					sourceAccount.substractFromBalance(transferDTO.getAmount());
-//					sourceAccount.getTransaction().add(transaction);
-					transactionDto.setAccountId(sourceAccount.getAccountId());
-					transactionService.saveTransactionData(transactionDto);
+
+					transactionService.saveTransactionData(createTransaction(sourceAccount, transferDTO.getAmount()));
 				});
 
 		customer.getAccounts().stream()
 				.filter(account -> transferDTO.getAccountIdTarget().equals(account.getAccountId())).findAny()
 				.ifPresent(targetAccount -> {
 					targetAccount.addToBalance(transferDTO.getAmount());
-					targetAccount.getTransaction().add(transaction);
-					transactionDto.setAccountId(targetAccount.getAccountId());
-					transactionService.saveTransactionData(transactionDto);
+
+					transactionService.saveTransactionData(createTransaction(targetAccount, transferDTO.getAmount()));
 				});
 		customerRepository.save(customer);
-
-//			Account sourceAccount = accountRepository.findById(transferDTO.getAccountIdSource()).get();
-//			Account targetAccount = accountRepository.findById(transferDTO.getAccountIdTarget()).get();
-
-//			sourceAccount.substractFromBalance(transferDTO.getAmount());
-//			targetAccount.addToBalance(transferDTO.getAmount());
-
-//			TransactionRequestDTO addFoundTransaction = new TransactionRequestDTO();
-//			addFoundTransaction.setAmount(transferDTO.getAmount());
-//			addFoundTransaction.setTransactionDate(new Date(System.currentTimeMillis()));
-//			addFoundTransaction.setTransactionNumber(Integer.toString(ThreadLocalRandom.current().nextInt()));
-//			addFoundTransaction.setTransactionType("Money Transfer");
-//
-//			TransactionRequestDTO substractFoundTransaction = new TransactionRequestDTO();
-//			substractFoundTransaction.setAmount(transferDTO.getAmount());
-//			substractFoundTransaction.setTransactionDate(new Date(System.currentTimeMillis()));
-//			substractFoundTransaction.setTransactionNumber(Integer.toString(ThreadLocalRandom.current().nextInt()));
-//			substractFoundTransaction.setTransactionType("Money Transfer");
-
-//			Transaction substractFoundTransaction = new Transaction();
-//			substractFoundTransaction.setAmount(transferDTO.getAmount());
-//			substractFoundTransaction.setTransactionDate(new Date(System.currentTimeMillis()));
-//			substractFoundTransaction.setTransactionNumber(Integer.toString(ThreadLocalRandom.current().nextInt()));
-//			substractFoundTransaction.setTransactionType("Money Transfer");
-
-//			sourceAccount.getTransaction().add(transaction);
-//			targetAccount.getTransaction().add(transaction);
-
-//			transactionService.saveTransactionData(addFoundTransaction);
-//			transactionService.saveTransactionData(substractFoundTransaction);
-
 	}
+
+	private String setTransactionType(String cardType) {
+		if (cardType.equals("DEBIT"))
+			return "DEBIT";
+		return "CREDIT";
+	}
+
+	private TransactionRequestDTO createTransaction(Account account, double amount) {
+		TransactionRequestDTO transactionDto = new TransactionRequestDTO();
+		transactionDto.setAmount(amount);
+		transactionDto.setTransactionDate(new Date(System.currentTimeMillis()));
+		transactionDto.setTransactionNumber(Integer.toString(ThreadLocalRandom.current().nextInt()));
+
+		transactionDto.setAccountId(account.getAccountId());
+		transactionDto.setTransactionType(setTransactionType(account.getAccountType()));
+
+		return transactionDto;
+	}
+
 }

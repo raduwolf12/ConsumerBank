@@ -61,7 +61,7 @@ public class AccountEntityTest {
 
 	@Test
 	public void testAccountEntity() {
-		Customer savedCustomer = this.entityManager.persistAndFlush(customer);
+//		Customer savedCustomer = this.entityManager.persistAndFlush(customer);
 
 		Account savedAccount = this.entityManager.persistFlushFind(account);
 		assertNotNull(savedAccount);

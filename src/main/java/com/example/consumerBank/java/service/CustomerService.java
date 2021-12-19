@@ -13,7 +13,7 @@ public interface CustomerService {
 
 	List<CustomerResponseDTO> getCustomerDetails();
 	
-	CustomerResponseDTO getCustomerDetails(Integer customerId);
+	CustomerResponseDTO getCustomerDetails(Integer customerId) throws CustomerNotFoundException;
 	
 	List<CustomerResponse> getCustomerDetails(String name);
 	

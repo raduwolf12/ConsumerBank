@@ -53,7 +53,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/customers/{customerId}")
-	public ResponseEntity<CustomerResponseDTO> getCustomerDetails(@PathVariable Integer customerId) {
+	public ResponseEntity<CustomerResponseDTO> getCustomerDetails(@PathVariable Integer customerId) throws CustomerNotFoundException {
 		return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.ACCEPTED);
 	}
 
