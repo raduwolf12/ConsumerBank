@@ -38,4 +38,29 @@ For above APIs:
 
 - Unit testing for both Controller and Service classes
 
-80% code coverage
+
+SpringBoot
+
+SpringDataJPA
+
+Validations - Form Validation and Business Validation.
+
+Exceptions - Global
+
+Junit & Mockito - 80% Coverage.
+
+Bank Application
+
+---------------- Register and Update - Customer Registeration
+
+Beneficiary Addition - 
+
+Transfer - 
+
+Transfer History - 
+
+    Date Range - 
+
+    Month -
+
+
