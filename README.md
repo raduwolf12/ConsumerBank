@@ -18,7 +18,8 @@ User should be able to see his/her last transactions by month
 Add one more functionality:
 
 - user will enter start and end date and all credit and debit transactions total has to be displayed for that period
-
+- register
+- add beneficiary, beneficiary controller and stuff
 
 For above APIs:
 
@@ -36,3 +37,5 @@ For above APIs:
 - Java 8 features need to used where ever possible
 
 - Unit testing for both Controller and Service classes
+
+80% code coverage
