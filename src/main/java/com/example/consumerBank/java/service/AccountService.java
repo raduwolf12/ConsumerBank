@@ -14,5 +14,5 @@ public interface AccountService {
 
 	AccountResponse findAccountByAccountNumber(long accountNumber);
 
-	void delete(Integer accountId);
+	String delete(Integer accountId);
 }

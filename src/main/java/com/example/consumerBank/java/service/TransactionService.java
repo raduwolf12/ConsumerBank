@@ -13,7 +13,7 @@ public interface TransactionService {
 
 	List<TransactionResponseDTO> getTransactions();
 
-	void delete(Integer transactionId);
+	String delete(Integer transactionId);
 
 	TransactionResponseDTO getTransaction(Integer transactionId);
 

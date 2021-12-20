@@ -22,7 +22,6 @@ import com.example.consumerBank.java.dto.TransactionRequestDTO;
 import com.example.consumerBank.java.dto.TransferDTO;
 import com.example.consumerBank.java.entity.Account;
 import com.example.consumerBank.java.entity.Customer;
-import com.example.consumerBank.java.entity.Transaction;
 import com.example.consumerBank.java.exception.CustomerNotFoundException;
 import com.example.consumerBank.java.repository.CustomerRepository;
 import com.example.consumerBank.java.service.CustomerService;
@@ -39,9 +38,6 @@ public class CustomerServiceImpl implements CustomerService {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
-//	@Autowired
-//	AccountRepository accountRepository;
 
 	protected Account toEntity(AccountRequestDTO dto) {
 		return modelMapper().map(dto, Account.class);
@@ -78,7 +74,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<CustomerResponseDTO> getCustomerDetails() {
 		List<CustomerResponseDTO> customerResponseDTOList = new ArrayList<>();
-		Iterator<?> it = customerRepository.findAll().iterator();
+		List<?> list = customerRepository.findAll();
+		Iterator<?> it = list.iterator();
 
 		while (it.hasNext()) {
 			CustomerResponseDTO responseDTO = new CustomerResponseDTO();
@@ -110,8 +107,9 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void delete(Integer customerId) {
+	public String delete(Integer customerId) {
 		customerRepository.deleteById(customerId);
+		return "Customer was succesfully deleted!";
 	}
 
 	@Override
@@ -120,7 +118,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void transferFunds(Integer customerId, TransferDTO transferDTO) throws CustomerNotFoundException {
+	public String transferFunds(Integer customerId, TransferDTO transferDTO) throws CustomerNotFoundException {
 		Customer customer = new Customer();
 
 		Optional<Customer> optional = customerRepository.findById(customerId);
@@ -145,6 +143,8 @@ public class CustomerServiceImpl implements CustomerService {
 					transactionService.saveTransactionData(createTransaction(targetAccount, transferDTO.getAmount()));
 				});
 		customerRepository.save(customer);
+		
+		return "Transfer was succesfull!";
 	}
 
 	private String setTransactionType(String cardType) {

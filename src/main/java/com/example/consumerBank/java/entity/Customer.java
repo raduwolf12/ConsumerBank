@@ -2,7 +2,6 @@ package com.example.consumerBank.java.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,20 +17,7 @@ public class Customer {
 	private String customerName;
 	private String phoneNo;
 	private String address;
-//	@EmbeddedId
-//	private CustomerKey customerKey;
 
-//	private Address homeAddress;
-//	
-//	@AttributeOverrides(value = {
-//			@AttributeOverride(column = @Column(name="officeCity"), name = "city"),
-//			@AttributeOverride(column = @Column(name="officeState"), name = "state")
-//	})
-//	private Address officeAddress;
-
-//	@ElementCollection
-//	List<Address> addressList = new ArrayList<Address>();
-//
 	@OneToMany(mappedBy = "customer")
 	private List<Account> accounts;
 

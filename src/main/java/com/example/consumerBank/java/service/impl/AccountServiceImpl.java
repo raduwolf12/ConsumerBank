@@ -61,8 +61,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public void delete(Integer accountId) {
-		accountRepository.deleteById(accountId);		
+	public String delete(Integer accountId) {
+		accountRepository.deleteById(accountId);
+		return "Account was deleted!";
 	}
 
 }

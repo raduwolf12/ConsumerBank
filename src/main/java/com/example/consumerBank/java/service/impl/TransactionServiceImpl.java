@@ -80,9 +80,9 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public void delete(Integer transactionId) {
+	public String delete(Integer transactionId) {
 		transactionRepository.deleteById(transactionId);
-
+		return "Transaction was deleted!";
 	}
 
 	@Override

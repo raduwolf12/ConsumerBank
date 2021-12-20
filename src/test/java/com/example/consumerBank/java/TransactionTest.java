@@ -23,11 +23,16 @@ public class TransactionTest {
 		transaction.setTransactionId(12);
 		transaction.setTransactionNumber("123");
 		transaction.setTransactionType("DEFAULT");
+		transaction.setTransactionDate(null);
+		transaction.setAccount(null);
 
 		assertEquals(123, transaction.getAmount());
 		assertEquals(12, transaction.getTransactionId());
 		assertEquals("123", transaction.getTransactionNumber());
 		assertEquals("DEFAULT", transaction.getTransactionType());
+		assertEquals(null, transaction.getTransactionDate());
+		assertEquals(null, transaction.getAccount());
+
 
 	}
 }

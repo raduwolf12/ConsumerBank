@@ -43,17 +43,11 @@ public class TransactionController {
 		return new ResponseEntity<>(transactionService.getTransaction(transactionId), HttpStatus.ACCEPTED);
 	}
 
-	@PutMapping("/transactions ")
-	public ResponseEntity<TransactionResponseDTO> updateTransactionData(
-			@RequestBody TransactionRequestDTO transactionRequestDTO) {
-		TransactionResponseDTO responseDTO = transactionService.saveTransactionData(transactionRequestDTO);
-		return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
-	}
 
 	@DeleteMapping("/transaction/{transactionId}")
 	public ResponseEntity<String> deleteTransaction(@PathVariable Integer transactionId) {
-		transactionService.delete(transactionId);
-		return new ResponseEntity<>("Transaction was deleted", HttpStatus.ACCEPTED);
+		
+		return new ResponseEntity<>(transactionService.delete(transactionId), HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/transactions/{customerId}/{startDate}/{endDate}")
@@ -66,7 +60,7 @@ public class TransactionController {
 	}
 	
 	
-	@GetMapping("/transactions/{customerId}/{startDate}")
+	@GetMapping("/transactions/{customerId}/{month}")
 	public ResponseEntity<List<TransactionResponseDTO>> getTransactionByMonth(@PathVariable Integer customerId,@PathVariable Integer month)
 			throws CustomerNotFoundException, ParseException {
 

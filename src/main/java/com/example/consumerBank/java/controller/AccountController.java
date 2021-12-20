@@ -60,7 +60,7 @@ public class AccountController {
 	}
 
 	@PutMapping("/accounts")
-	public ResponseEntity<AccountResponseDTO> updateCustomerData(@RequestBody AccountRequestDTO accountRequestDTO)
+	public ResponseEntity<AccountResponseDTO> updateAccountData(@RequestBody AccountRequestDTO accountRequestDTO)
 			throws CustomerNotFoundException {
 		AccountResponseDTO accountResponseDTO = accountService.saveAccountData(accountRequestDTO);
 		return new ResponseEntity<>(accountResponseDTO, HttpStatus.ACCEPTED);
@@ -68,8 +68,8 @@ public class AccountController {
 
 	@DeleteMapping("/accounts/{accountId}")
 	public ResponseEntity<String> deleteCustomerById(@PathVariable Integer accountId) {
-		accountService.delete(accountId);
-		return new ResponseEntity<>("Customer was deleted", HttpStatus.ACCEPTED);
+		
+		return new ResponseEntity<>(accountService.delete(accountId), HttpStatus.ACCEPTED);
 	}
 	
 

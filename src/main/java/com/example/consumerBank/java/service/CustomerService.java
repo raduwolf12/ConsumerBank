@@ -19,8 +19,8 @@ public interface CustomerService {
 	
 	CustomerResponse getCustomerData(String phoneNo, String Adress);	
 	
-	void delete(Integer customerId);
+	String delete(Integer customerId);
 
-	void transferFunds(Integer customerId, TransferDTO transferDTO) throws CustomerNotFoundException;
+	String transferFunds(Integer customerId, TransferDTO transferDTO) throws CustomerNotFoundException;
 
 }

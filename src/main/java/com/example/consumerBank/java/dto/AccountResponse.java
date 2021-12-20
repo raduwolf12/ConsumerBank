@@ -1,10 +1,5 @@
 package com.example.consumerBank.java.dto;
 
-import java.util.Set;
-
-import com.example.consumerBank.java.entity.Customer;
-import com.example.consumerBank.java.entity.Transaction;
-
 public class AccountResponse {
 
 	private Long accountNumber;

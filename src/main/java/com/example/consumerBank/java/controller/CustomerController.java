@@ -31,7 +31,7 @@ public class CustomerController {
 	@PostMapping("/customers")
 	public ResponseEntity<CustomerResponseDTO> saveCustomerData(@RequestBody CustomerRequestDTO customerRequestDTO) {
 		CustomerResponseDTO customerResponseDTO = customerService.saveCustomerData(customerRequestDTO);
-		return new ResponseEntity<>(customerResponseDTO, HttpStatus.ACCEPTED);
+		return new ResponseEntity<CustomerResponseDTO>(customerResponseDTO, HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/customers")
@@ -53,7 +53,8 @@ public class CustomerController {
 	}
 
 	@GetMapping("/customers/{customerId}")
-	public ResponseEntity<CustomerResponseDTO> getCustomerDetails(@PathVariable Integer customerId) throws CustomerNotFoundException {
+	public ResponseEntity<CustomerResponseDTO> getCustomerDetails(@PathVariable Integer customerId)
+			throws CustomerNotFoundException {
 		return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.ACCEPTED);
 	}
 
@@ -65,16 +66,15 @@ public class CustomerController {
 
 	@DeleteMapping("/customers/{customerId}")
 	public ResponseEntity<String> deleteCustomerById(@PathVariable Integer customerId) {
-		customerService.delete(customerId);
-		return new ResponseEntity<>("Customer was deleted", HttpStatus.ACCEPTED);
+		
+		return new ResponseEntity<>(customerService.delete(customerId), HttpStatus.ACCEPTED);
 	}
-	
+
 	@PostMapping("/customers/{customerId}")
-	public ResponseEntity<String> transferFunds(@PathVariable Integer customerId,@RequestBody TransferDTO transferDTO) throws CustomerNotFoundException {
-		
-		customerService.transferFunds(customerId, transferDTO);
-		
-		return new ResponseEntity<>("Funds were transfered!", HttpStatus.ACCEPTED);
+	public ResponseEntity<String> transferFunds(@PathVariable Integer customerId, @RequestBody TransferDTO transferDTO)
+			throws CustomerNotFoundException {
+
+		return new ResponseEntity<>(customerService.transferFunds(customerId, transferDTO), HttpStatus.ACCEPTED);
 	}
-	
+
 }
