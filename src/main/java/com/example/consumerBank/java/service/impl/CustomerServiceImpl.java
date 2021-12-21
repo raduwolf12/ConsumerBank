@@ -26,27 +26,57 @@ import com.example.consumerBank.java.exception.CustomerNotFoundException;
 import com.example.consumerBank.java.repository.CustomerRepository;
 import com.example.consumerBank.java.service.CustomerService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CustomerServiceImpl.
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
+	
+	/** The customer repository. */
 	@Autowired
 	CustomerRepository customerRepository;
 
+	/** The transaction service. */
 	@Autowired
 	TransactionServiceImpl transactionService;
 
+	/**
+	 * Model mapper.
+	 *
+	 * @return the model mapper
+	 */
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 
+	/**
+	 * To entity.
+	 *
+	 * @param dto the dto
+	 * @return the account
+	 */
 	protected Account toEntity(AccountRequestDTO dto) {
 		return modelMapper().map(dto, Account.class);
 	}
 
+	/**
+	 * To entities.
+	 *
+	 * @param dtos the dtos
+	 * @return the list
+	 */
 	protected List<Account> toEntities(List<AccountRequestDTO> dtos) {
 		return dtos.stream().map(this::toEntity).collect(Collectors.toList());
 	}
 
+	/**
+	 * Save customer data.
+	 *
+	 * @param customerRequestDTO the customer request DTO
+	 * @return the customer response DTO
+	 */
 	@Override
 	public CustomerResponseDTO saveCustomerData(CustomerRequestDTO customerRequestDTO) {
 		Customer customer = new Customer();
@@ -71,6 +101,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
+	/**
+	 * Gets the customer details.
+	 *
+	 * @return the customer details
+	 */
 	@Override
 	public List<CustomerResponseDTO> getCustomerDetails() {
 		List<CustomerResponseDTO> customerResponseDTOList = new ArrayList<>();
@@ -86,6 +121,13 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerResponseDTOList;
 	}
 
+	/**
+	 * Gets the customer details.
+	 *
+	 * @param customerId the customer id
+	 * @return the customer details
+	 * @throws CustomerNotFoundException the customer not found exception
+	 */
 	@Override
 	public CustomerResponseDTO getCustomerDetails(Integer customerId) throws CustomerNotFoundException {
 		Customer customer = new Customer();
@@ -100,23 +142,50 @@ public class CustomerServiceImpl implements CustomerService {
 		return responseDTO;
 	}
 
+	/**
+	 * Gets the customer details.
+	 *
+	 * @param name the name
+	 * @return the customer details
+	 */
 	@Override
 	public List<CustomerResponse> getCustomerDetails(String name) {
 
 		return customerRepository.findByCustomerNameContaining(name);
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param customerId the customer id
+	 * @return the string
+	 */
 	@Override
 	public String delete(Integer customerId) {
 		customerRepository.deleteById(customerId);
 		return "Customer was succesfully deleted!";
 	}
 
+	/**
+	 * Gets the customer data.
+	 *
+	 * @param phoneNo the phone no
+	 * @param Adress the adress
+	 * @return the customer data
+	 */
 	@Override
 	public CustomerResponse getCustomerData(String phoneNo, String Adress) {
 		return customerRepository.findCustomerData(phoneNo, Adress);
 	}
 
+	/**
+	 * Transfer funds.
+	 *
+	 * @param customerId the customer id
+	 * @param transferDTO the transfer DTO
+	 * @return the string
+	 * @throws CustomerNotFoundException the customer not found exception
+	 */
 	@Override
 	public String transferFunds(Integer customerId, TransferDTO transferDTO) throws CustomerNotFoundException {
 		Customer customer = new Customer();
@@ -143,16 +212,29 @@ public class CustomerServiceImpl implements CustomerService {
 					transactionService.saveTransactionData(createTransaction(targetAccount, transferDTO.getAmount()));
 				});
 		customerRepository.save(customer);
-		
+
 		return "Transfer was succesfull!";
 	}
 
+	/**
+	 * Sets the transaction type.
+	 *
+	 * @param cardType the card type
+	 * @return the string
+	 */
 	private String setTransactionType(String cardType) {
 		if (cardType.equals("DEBIT"))
 			return "DEBIT";
 		return "CREDIT";
 	}
 
+	/**
+	 * Creates the transaction.
+	 *
+	 * @param account the account
+	 * @param amount the amount
+	 * @return the transaction request DTO
+	 */
 	private TransactionRequestDTO createTransaction(Account account, double amount) {
 		TransactionRequestDTO transactionDto = new TransactionRequestDTO();
 		transactionDto.setAmount(amount);

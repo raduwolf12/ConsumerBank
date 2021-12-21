@@ -1,5 +1,6 @@
 package com.example.consumerBank.java.service.impl;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -26,18 +27,31 @@ import com.example.consumerBank.java.repository.CustomerRepository;
 import com.example.consumerBank.java.repository.TransactionRepository;
 import com.example.consumerBank.java.service.TransactionService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TransactionServiceImpl.
+ */
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
+	/** The transaction repository. */
 	@Autowired
 	TransactionRepository transactionRepository;
 
+	/** The account repository. */
 	@Autowired
 	AccountRepository accountRepository;
 
+	/** The customer repository. */
 	@Autowired
 	CustomerRepository customerRepository;
 
+	/**
+	 * Save transaction data.
+	 *
+	 * @param transactionRequestDTO the transaction request DTO
+	 * @return the transaction response DTO
+	 */
 	@Override
 	public TransactionResponseDTO saveTransactionData(TransactionRequestDTO transactionRequestDTO) {
 
@@ -61,6 +75,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
+	/**
+	 * Gets the transactions.
+	 *
+	 * @return the transactions
+	 */
 	@Override
 	public List<TransactionResponseDTO> getTransactions() {
 
@@ -79,12 +98,24 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionResponseDTOs;
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param transactionId the transaction id
+	 * @return the string
+	 */
 	@Override
 	public String delete(Integer transactionId) {
 		transactionRepository.deleteById(transactionId);
 		return "Transaction was deleted!";
 	}
 
+	/**
+	 * Gets the transaction.
+	 *
+	 * @param transactionId the transaction id
+	 * @return the transaction
+	 */
 	@Override
 	public TransactionResponseDTO getTransaction(Integer transactionId) {
 
@@ -102,6 +133,16 @@ public class TransactionServiceImpl implements TransactionService {
 		return responseDTO;
 	}
 
+	/**
+	 * Gets the transaction in interval.
+	 *
+	 * @param customerId the customer id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @return the transaction in interval
+	 * @throws CustomerNotFoundException the customer not found exception
+	 * @throws ParseException the parse exception
+	 */
 	@Override
 	public List<TransactionResponseDTO> getTransactionInInterval(Integer customerId, String startDate, String endDate)
 			throws CustomerNotFoundException, ParseException {
@@ -128,6 +169,14 @@ public class TransactionServiceImpl implements TransactionService {
 		return dtos;
 	}
 
+	/**
+	 * Gets the transaction by month.
+	 *
+	 * @param customerId the customer id
+	 * @param month the month
+	 * @return the transaction by month
+	 * @throws CustomerNotFoundException the customer not found exception
+	 */
 	@Override
 	public List<TransactionResponseDTO> getTransactionByMonth(Integer customerId, Integer month)
 			throws CustomerNotFoundException {
@@ -159,6 +208,16 @@ public class TransactionServiceImpl implements TransactionService {
 		return dtos;
 	}
 
+	/**
+	 * Gets the transaction in interval total.
+	 *
+	 * @param customerId the customer id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @return the transaction in interval total
+	 * @throws CustomerNotFoundException the customer not found exception
+	 * @throws ParseException the parse exception
+	 */
 	@Override
 	public long getTransactionInIntervalTotal(Integer customerId, String startDate, String endDate)
 			throws CustomerNotFoundException, ParseException {
@@ -182,12 +241,27 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactions.stream().count();
 	}
 
+	/**
+	 * Check dates.
+	 *
+	 * @param startD the start D
+	 * @param endD the end D
+	 * @param curentD the curent D
+	 * @return true, if successful
+	 * @throws ParseException the parse exception
+	 */
 	private boolean checkDates(String startD, String endD, Date curentD) throws ParseException {
 
 		Date startDate = new SimpleDateFormat("yyyy-mm-dd").parse(startD);
 		Date endDate = new SimpleDateFormat("yyyy-mm-dd").parse(endD);
 
-		Date curentDate = new SimpleDateFormat("yyyy-mm-dd").parse(curentD.toString());
+		String pattern = "yyyy-mm-dd";
+
+		DateFormat df = new SimpleDateFormat(pattern);
+
+		String cDate = df.format(curentD);
+
+		Date curentDate = new SimpleDateFormat("yyyy-mm-dd").parse(cDate);
 
 		if (startDate == null) {
 			return endDate == null || curentDate.compareTo(endDate) < 0;
@@ -199,6 +273,12 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
+	/**
+	 * Convert transaction to response dto.
+	 *
+	 * @param transaction the transaction
+	 * @return the transaction response DTO
+	 */
 	private TransactionResponseDTO convertTransactionToResponseDto(Transaction transaction) {
 		TransactionResponseDTO responseDTO = new TransactionResponseDTO();
 		BeanUtils.copyProperties(transaction, responseDTO);

@@ -18,14 +18,28 @@ import com.example.consumerBank.java.repository.AccountRepository;
 import com.example.consumerBank.java.repository.CustomerRepository;
 import com.example.consumerBank.java.service.AccountService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AccountServiceImpl.
+ */
 @Service
 public class AccountServiceImpl implements AccountService {
+	
+	/** The account repository. */
 	@Autowired
 	AccountRepository accountRepository;
 
+	/** The customer repository. */
 	@Autowired
 	CustomerRepository customerRepository;
 
+	/**
+	 * Save account data.
+	 *
+	 * @param accountRequestDTO the account request DTO
+	 * @return the account response DTO
+	 * @throws CustomerNotFoundException the customer not found exception
+	 */
 	@Override
 	public AccountResponseDTO saveAccountData(AccountRequestDTO accountRequestDTO) throws CustomerNotFoundException {
 		Optional<Customer> optional = customerRepository.findById(accountRequestDTO.getCustomerId());
@@ -46,20 +60,37 @@ public class AccountServiceImpl implements AccountService {
 		return accountResponseDTO;
 	}
 
+	/**
+	 * Gets the accounts.
+	 *
+	 * @return the accounts
+	 */
 	@Override
 	public List<AccountResponseDTO> getAccounts() {
 		List<AccountResponseDTO> accounts = accountRepository.findAccounts();
-	    if(accounts.isEmpty()) {
-	        throw new AccountNotExistException("No accounts found");
-	    }
-	    return accounts;
+		if (accounts.isEmpty()) {
+			throw new AccountNotExistException("No accounts found");
+		}
+		return accounts;
 	}
 
+	/**
+	 * Find account by account number.
+	 *
+	 * @param accountNumber the account number
+	 * @return the account response
+	 */
 	@Override
 	public AccountResponse findAccountByAccountNumber(long accountNumber) {
 		return accountRepository.findByAccountNumber(accountNumber);
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param accountId the account id
+	 * @return the string
+	 */
 	@Override
 	public String delete(Integer accountId) {
 		accountRepository.deleteById(accountId);

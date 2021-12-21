@@ -23,13 +23,27 @@ import com.example.consumerBank.java.dto.AccountResponseDTO;
 import com.example.consumerBank.java.exception.CustomerNotFoundException;
 import com.example.consumerBank.java.service.AccountService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AccountController.
+ */
 @RestController
 public class AccountController {
+	
+	/** The account service. */
 	@Autowired
 	AccountService accountService;
 
+	/** The logger. */
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/**
+	 * Save account data.
+	 *
+	 * @param accountRequestDTO the account request DTO
+	 * @return the response entity
+	 * @throws CustomerNotFoundException the customer not found exception
+	 */
 	@PostMapping("/accounts")
 	public ResponseEntity<AccountResponseDTO> saveAccountData(@Valid @RequestBody AccountRequestDTO accountRequestDTO)
 			throws CustomerNotFoundException {
@@ -48,30 +62,52 @@ public class AccountController {
 		return new ResponseEntity<AccountResponseDTO>(accountResponseD, HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Gets the accounts.
+	 *
+	 * @return the accounts
+	 */
 	@GetMapping("/accounts")
 	public ResponseEntity<List<AccountResponseDTO>> getAccounts() {
 		return new ResponseEntity<List<AccountResponseDTO>>(accountService.getAccounts(), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Find account by account number.
+	 *
+	 * @param accountNumber the account number
+	 * @return the response entity
+	 */
 	@GetMapping("/accounts/{accountNumber}")
 	public ResponseEntity<AccountResponse> findAccountByAccountNumber(@PathVariable long accountNumber) {
 		return new ResponseEntity<AccountResponse>(accountService.findAccountByAccountNumber(accountNumber),
 				HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Update account data.
+	 *
+	 * @param accountRequestDTO the account request DTO
+	 * @return the response entity
+	 * @throws CustomerNotFoundException the customer not found exception
+	 */
 	@PutMapping("/accounts")
-	public ResponseEntity<AccountResponseDTO> updateAccountData(@RequestBody AccountRequestDTO accountRequestDTO)
+	public ResponseEntity<AccountResponseDTO> updateAccountData(@Valid @RequestBody AccountRequestDTO accountRequestDTO)
 			throws CustomerNotFoundException {
 		AccountResponseDTO accountResponseDTO = accountService.saveAccountData(accountRequestDTO);
 		return new ResponseEntity<>(accountResponseDTO, HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Delete customer by id.
+	 *
+	 * @param accountId the account id
+	 * @return the response entity
+	 */
 	@DeleteMapping("/accounts/{accountId}")
 	public ResponseEntity<String> deleteCustomerById(@PathVariable Integer accountId) {
-		
+
 		return new ResponseEntity<>(accountService.delete(accountId), HttpStatus.ACCEPTED);
 	}
-	
-
 
 }

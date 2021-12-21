@@ -14,8 +14,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.consumerBank.java.exceptions.AccountNotExistException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GlobalExceptionHandler.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	
+	/**
+	 * Handle exception.
+	 *
+	 * @param ex the ex
+	 * @return the response entity
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ValidationErrorResponse> handleException(MethodArgumentNotValidException ex) {
 		List<FieldError> errors = ex.getBindingResult().getFieldErrors();
@@ -30,6 +41,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ValidationErrorResponse>(validationErrorResponse, HttpStatus.BAD_REQUEST);
 	}
 
+	/**
+	 * Handle exception.
+	 *
+	 * @param ex the ex
+	 * @return the response entity
+	 */
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ValidationErrorResponse> handleException(ConstraintViolationException ex) {
 
@@ -45,6 +62,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ValidationErrorResponse>(validationErrorResponse, HttpStatus.BAD_REQUEST);
 	}
 
+	/**
+	 * Handle exception.
+	 *
+	 * @param ex the ex
+	 * @return the response entity
+	 */
 	@ExceptionHandler(CustomerNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleException(CustomerNotFoundException ex) {
 
@@ -55,14 +78,20 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
-	
+
+	/**
+	 * Handle exception.
+	 *
+	 * @param ex the ex
+	 * @return the response entity
+	 */
 	@ExceptionHandler(AccountNotExistException.class)
 	public ResponseEntity<ErrorResponse> handleException(AccountNotExistException ex) {
-	    ErrorResponse errorResponse = new ErrorResponse();
-	    errorResponse.setMessage(ex.getMessage());
-	    errorResponse.setDateTimel(LocalDateTime.now());
-	    errorResponse.setStatuscode(HttpStatus.NOT_FOUND.value());
-	    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(ex.getMessage());
+		errorResponse.setDateTimel(LocalDateTime.now());
+		errorResponse.setStatuscode(HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 
 }
